@@ -2,7 +2,7 @@ var mongoose =require("mongoose");
 
 var productSchema = mongoose.Schema({
     name: {type : String, required : true},
-    img: {type : String, required : true},
+    img: {type : String},
     description :String,
     price:{type:Number},
 });
