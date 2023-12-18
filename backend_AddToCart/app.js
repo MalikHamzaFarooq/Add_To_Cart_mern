@@ -6,26 +6,35 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 var config = require("config");
 
+
 var app = express();
 var indexRouter = require('./routes/index');   //for main page to show
 var usersRouter = require('./routes/api/user');
 var productsRouter = require('./routes/api/products');
 var cors =require("cors");
 
-// handle issue of getting req from another port
+// handle issues of getting req from another port from frontend
 app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.get('/uploads/:filename', (req, res) => {
+  const filename = req.params.filename;
+  console.log('filename', filename)
+  const filePath = path.join(__dirname, 'uploads', filename);
+  console.log('filePath', filePath)
+  res.sendFile(filePath);
+});
+
+// app.use('/', indexRouter);
 app.use('/api/users', usersRouter);  //this will add that route before every route come from userRoutes
 app.use('/api/products', productsRouter); 
 
@@ -46,6 +55,8 @@ app.use(function(err, req, res, next) {
 });
 
 
+
+
 mongoose.connect(config.get('db'))
 .then(() => {
   console.log("connect mongoDB....");
@@ -53,7 +64,6 @@ mongoose.connect(config.get('db'))
 .catch((err) => {
   console.log(err.message);
 });
-
 
 
 module.exports = app;
