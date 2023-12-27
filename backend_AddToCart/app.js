@@ -9,12 +9,14 @@ var config = require("config");
 
 var app = express();
 var indexRouter = require('./routes/index');   //for main page to show
-var usersRouter = require('./routes/api/user');
+var usersRouter = require('./routes/api/users');
+var logInRouter = require('./routes/api/login');
 var productsRouter = require('./routes/api/products');
 var cors =require("cors");
 
 // handle issues of getting req from another port from frontend
 app.use(cors());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +39,7 @@ app.get('/uploads/:filename', (req, res) => {
 
 // app.use('/', indexRouter);
 app.use('/api/users', usersRouter);  //this will add that route before every route come from userRoutes
+app.use('/api/login', logInRouter);
 app.use('/api/products', productsRouter); 
 
 // catch 404 and forward to error handler
