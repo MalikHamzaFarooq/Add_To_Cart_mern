@@ -1,3 +1,5 @@
 {
-    "db":"mongodb://localhost/add_to_cart"
+    "db":"mongodb://localhost/add_to_cart",
+    "jwtPrivateKey":"SomePrivateKey"
+
 }

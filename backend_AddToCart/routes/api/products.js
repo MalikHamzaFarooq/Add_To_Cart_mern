@@ -2,6 +2,7 @@ const express = require("express");
 let router = express.Router();
 var Product = require("../../models/product.model");
 const multer = require("multer");
+const userAuth = require("../../middleware/auth.user");
 
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -13,7 +14,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }); //middlewear contains storage obj of file location and name of file
 
 // Get all records
-router.get("/", async (req, res) => {
+router.get("/",userAuth, async (req, res) => {
+  console.log('req.user', req.user);
   let products = await Product.find();
   return res.send(products);
 });
@@ -47,7 +49,7 @@ router.delete("/:id", async (req, res) => {
 });
 //Insert a record
 // router.post("/", async (req, res) => {
-router.post("/", upload.single("file"), async (req, res) => {
+router.post("/",upload.single("file"), async (req, res) => {
   console.log("req.body", req.body);
   console.log("file", req.file);
   let product = new Product();

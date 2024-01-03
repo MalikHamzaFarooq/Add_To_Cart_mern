@@ -4,12 +4,11 @@ var User = require("../../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt =require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const _= require ("lodash");
 var app = express();
 
 
 app.use(cookieParser())
-
-
 
 
 
@@ -41,13 +40,18 @@ router.delete("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   console.log("req.body", req.body)
  
-  let user = new User();
+  let user = await User.findOne({email:req.body.email});
+  if(user){
+    return res.status(400).send("User already exists");
+  }
+  user = new User(); 
   user.name = req.body.name;
   user.email = req.body.email;
   user.dob = req.body.dob;
-  user.password = await bcrypt.hash(req.body.password,10);
+  user.password = await bcrypt.hash(req.body.password,10);//add salt of random string of 10
   await user.save();
-  return res.send(user);
+  // return res.send(user);
+  return res.send(_.pick(user,["name","email"])); //only name nd mail return in user Obj
 });
 
 module.exports = router;

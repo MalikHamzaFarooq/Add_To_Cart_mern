@@ -5,6 +5,7 @@ var userSchema = mongoose.Schema({
     email: {type : String,required:true,lowercase:true},
     dob :Date,
     password:{type:String,required:true},
+    admin:{type:Boolean,default:false}
 },{timestamps:true});
 
 var User = mongoose.model("User",userSchema); 

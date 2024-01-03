@@ -8,6 +8,7 @@ var config = require("config");
 
 
 var app = express();
+
 var indexRouter = require('./routes/index');   //for main page to show
 var usersRouter = require('./routes/api/users');
 var logInRouter = require('./routes/api/login');
