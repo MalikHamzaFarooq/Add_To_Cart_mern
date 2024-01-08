@@ -20,7 +20,7 @@ router.get("/",userAuth, async (req, res) => {
   return res.send(products);
 });
 
-// Grt a record
+// Get a record
 router.get("/:id", async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
@@ -51,7 +51,7 @@ router.delete("/:id", async (req, res) => {
 // router.post("/", async (req, res) => {
 router.post("/",upload.single("file"), async (req, res) => {
   console.log("req.body", req.body);
-  console.log("file", req.file);
+  // console.log("file", req.file);
   let product = new Product();
   product.name = req.body.name;
   if (req.file) {
